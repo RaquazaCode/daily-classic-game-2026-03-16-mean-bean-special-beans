@@ -34,9 +34,7 @@ function frame(ts) {
 
 document.addEventListener("keydown", (event) => {
   const action = actionFromKey(event.key);
-  if (!action) {
-    return;
-  }
+  if (!action) return;
   event.preventDefault();
   controller.dispatch(action);
   draw();
@@ -48,11 +46,13 @@ window.advanceTime = (ms) => {
 };
 
 window.render_game_to_text = () => renderGameToText(controller.getState());
+window.__loadScriptedSpecialClear = () => {
+  controller.dispatch("load_scripted_special_clear");
+  draw();
+};
 
 window.addEventListener("beforeunload", () => {
-  if (rafHandle) {
-    cancelAnimationFrame(rafHandle);
-  }
+  if (rafHandle) cancelAnimationFrame(rafHandle);
 });
 
 draw();
